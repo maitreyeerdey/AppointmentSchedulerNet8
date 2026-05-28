@@ -1,0 +1,6 @@
+@AppointmentScheduler.Gateway_HostAddress = http://localhost:5068
+
+GET {{AppointmentScheduler.Gateway_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

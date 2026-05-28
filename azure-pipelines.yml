@@ -1,0 +1,54 @@
+trigger:
+- main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+
+- stage: Build_Docker_Images
+  displayName: 'Build Docker Images'
+
+  jobs:
+
+  - job: Build_AppointmentService
+    displayName: 'Build Appointment Service'
+    steps:
+    - checkout: self
+    - task: Docker@2
+      displayName: 'Build Appointment Service Image'
+      inputs:
+        command: 'build'
+        repository: 'appointmentservice'
+        dockerfile: '$(Build.SourcesDirectory)/AppointmentScheduler.AppointmentService/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          latest
+
+  - job: Build_BookingService
+    displayName: 'Build Booking Service'
+    steps:
+    - checkout: self
+    - task: Docker@2
+      displayName: 'Build Booking Service Image'
+      inputs:
+        command: 'build'
+        repository: 'bookingservice'
+        dockerfile: '$(Build.SourcesDirectory)/AppointmentScheduler.BookingService/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          latest
+
+  - job: Build_Gateway
+    displayName: 'Build Gateway'
+    steps:
+    - checkout: self
+    - task: Docker@2
+      displayName: 'Build Gateway Image'
+      inputs:
+        command: 'build'
+        repository: 'gateway'
+        dockerfile: '$(Build.SourcesDirectory)/AppointmentScheduler.Gateway/Dockerfile'
+        buildContext: '$(Build.SourcesDirectory)'
+        tags: |
+          latest

@@ -1,0 +1,12 @@
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/
+node_modules/
+.frontend/dist
+.DS_Store
+*.db
+*.log

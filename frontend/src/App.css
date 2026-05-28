@@ -1,0 +1,267 @@
+.app-shell {
+  font-family: Inter, system-ui, sans-serif;
+  padding: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+  color: #111827;
+  background: #f8fafc;
+}
+
+.app-header {
+  margin-bottom: 28px;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.header-left {
+  flex: 1;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.app-header p {
+  margin: 8px 0 0;
+  color: #475569;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #dbeafe;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid #93c5fd;
+  white-space: nowrap;
+}
+
+.admin-username {
+  font-weight: 600;
+  color: #0c4a6e;
+  font-size: 0.95rem;
+}
+
+.logout-button {
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background: #b91c1c;
+}
+
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .header-right {
+    align-self: flex-start;
+  }
+}
+
+/* Navigation Menu */
+.app-nav {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  background: #e2e8f0;
+  color: #0f172a;
+  border: 2px solid #cbd5e1;
+  border-radius: 12px;
+  padding: 12px 24px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: #cbd5e1;
+  border-color: #94a3b8;
+}
+
+.nav-button.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: 1.8fr 1.2fr;
+}
+
+.booking-view {
+  grid-template-columns: 1.8fr 1.2fr;
+}
+
+.admin-view {
+  grid-template-columns: 1fr;
+  max-width: 900px;
+}
+
+.panel {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.admin-panel {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border: 2px solid #e2e8f0;
+}
+
+.auth-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #e2e8f0;
+}
+
+.create-slot-section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.admin-panel h3 {
+  margin-top: 0;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 0.95rem;
+  color: #334155;
+}
+
+label input,
+label select,
+label textarea {
+  width: 100%;
+  margin-top: 6px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 12px 18px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #1d4ed8;
+}
+
+button.secondary {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+button.secondary:hover {
+  background: #cbd5e1;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.toast {
+  margin-top: 20px;
+  background: #eff6ff;
+  border: 1px solid #93c5fd;
+  padding: 16px;
+  border-radius: 14px;
+  color: #0c4a6e;
+}
+
+.toast-details {
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 12px;
+  overflow-x: auto;
+  font-size: 0.9rem;
+  color: #0f172a;
+  white-space: pre-wrap;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #2563eb;
+  z-index: 1000;
+}
+
+.success {
+  color: #166534;
+  margin-top: 12px;
+  font-weight: 500;
+}
+
+@media (max-width: 960px) {
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-view {
+    grid-template-columns: 1fr;
+  }
+
+  .app-nav {
+    flex-direction: column;
+  }
+
+  .nav-button {
+    width: 100%;
+  }
+}

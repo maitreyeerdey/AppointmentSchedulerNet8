@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: YourStrong!Passw0rd
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+
+  appointmentservice:
+    build:
+      context: .
+      dockerfile: AppointmentScheduler.AppointmentService/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__AppointmentDb: "Server=sqlserver;Database=AppointmentSchedulerAppointmentDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+      JwtSettings__Key: "SuperSecretJwtKeyForDemo1234567890ABCD"
+      JwtSettings__Issuer: "AppointmentScheduler"
+      JwtSettings__Audience: "AppointmentClients"
+    ports:
+      - "5089:80"
+    depends_on:
+      - sqlserver
+
+  bookingservice:
+    build:
+      context: .
+      dockerfile: AppointmentScheduler.BookingService/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__BookingDb: "Server=sqlserver;Database=AppointmentSchedulerBookingDb;User Id=sa;Password=YourStrong!Passw0rd;TrustServerCertificate=True;"
+      AppointmentServiceBaseUrl: "http://appointmentservice"
+      JwtSettings__Key: "SuperSecretJwtKeyForDemo1234567890ABCD"
+      JwtSettings__Issuer: "AppointmentScheduler"
+      JwtSettings__Audience: "AppointmentClients"
+    ports:
+      - "5097:80"
+    depends_on:
+      - sqlserver
+      - appointmentservice
+
+  gateway:
+    build:
+      context: .
+      dockerfile: AppointmentScheduler.Gateway/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      AppointmentServiceUrl: "http://appointmentservice"
+      BookingServiceUrl: "http://bookingservice"
+      JwtSettings__Key: "SuperSecretJwtKeyForDemo1234567890ABCD"
+      JwtSettings__Issuer: "AppointmentScheduler"
+      JwtSettings__Audience: "AppointmentClients"
+    ports:
+      - "5068:80"
+    depends_on:
+      - appointmentservice
+      - bookingservice
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:80"
+
+volumes:
+  sqlserver_data:

@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="AppointmentScheduler.AppointmentService/AppointmentScheduler.AppointmentService.csproj" />
+  <Project Path="AppointmentScheduler.BookingService/AppointmentScheduler.BookingService.csproj" />
+  <Project Path="AppointmentScheduler.Gateway/AppointmentScheduler.Gateway.csproj" />
+  <Project Path="AppointmentScheduler.Shared/AppointmentScheduler.Shared.csproj" />
+  <Project Path="AppointmentScheduler.Tests/AppointmentScheduler.Tests.csproj" />
+</Solution>
