@@ -1,21 +1,33 @@
-name: Frontend Docker Build
+name: Frontend Build and Push
 
 on:
   push:
     branches:
       - main
 
-  pull_request:
-    branches:
-      - main
-
 jobs:
-  build:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Login to ACR
+        run: az acr login --name appointmentscheduleracr
+
       - name: Build Docker image
-        run: docker build -f frontend/Dockerfile -t frontend-image ./frontend
+        run: |
+          docker build \
+            -f frontend/Dockerfile \
+            -t appointmentscheduleracr.azurecr.io/frontend:latest \
+            ./frontend
+
+      - name: Push Docker image
+        run: |
+          docker push appointmentscheduleracr.azurecr.io/frontend:latest
