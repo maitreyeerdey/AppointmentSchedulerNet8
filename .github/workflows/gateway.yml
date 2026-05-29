@@ -1,0 +1,33 @@
+name: Gateway
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - run: az acr login --name appointmentscheduleracr
+
+      - run: |
+          docker build \
+          -t appointmentscheduleracr.azurecr.io/gateway:${{ github.sha }} \
+          -f AppointmentScheduler.Gateway/Dockerfile .
+
+      - run: |
+          docker push appointmentscheduleracr.azurecr.io/gateway:${{ github.sha }}
+
+      - run: |
+          az containerapp update \
+            --name appschedulergateway \
+            --resource-group VisualStudioOnline-FECBB64602464D1F90BA5DC5D1CA72B4 \
+            --image appointmentscheduleracr.azurecr.io/gateway:${{ github.sha }}
