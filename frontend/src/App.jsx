@@ -136,7 +136,7 @@ function App() {
         <div className="header-content">
           <div className="header-left">
             <h1>Appointment Scheduler</h1>
-            <p>Simple booking system with microservices, JWT auth, and a React calendar UI.</p>
+            <p></p>
           </div>
           {isAdminAuthenticated && (
             <div className="header-right">
