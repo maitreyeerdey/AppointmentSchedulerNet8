@@ -193,7 +193,7 @@ function App() {
                 <section className="auth-section">
                   <h3></h3>
                   <label>
-                    User Name
+                    UserName
                     <input value={authForm.username} onChange={e => setAuthForm({ ...authForm, username: e.target.value })} />
                   </label>
                   <label>
