@@ -1,52 +1,55 @@
-name: Frontend Build, Push and Deploy
+name: Frontend Build and Deploy
 
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+      - main
+
+env:
+  ACR_NAME: appointmentscheduleracr
+  IMAGE_NAME: frontend
+  RESOURCE_GROUP: VisualStudioOnline-FECBB64602464D1F90BA5DC5D1CA72B4
+  CONTAINER_APP: appointmentschedulerfrontend
 
 jobs:
-build-and-deploy:
-runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: ubuntu-latest
 
-```
-steps:
-  - name: Checkout source
-    uses: actions/checkout@v4
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-  - name: Azure Login
-    uses: azure/login@v2
-    with:
-      creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-  - name: Login to ACR
-    run: az acr login --name appointmentscheduleracr
+      - name: Login to ACR
+        run: az acr login --name $ACR_NAME
 
-  - name: Set Image Tag
-    run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+      - name: Build Docker Image
+        run: |
+          docker build \
+            -f frontend/Dockerfile \
+            -t $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }} \
+            -t $ACR_NAME.azurecr.io/$IMAGE_NAME:latest \
+            ./frontend
 
-  - name: Build Docker image
-    run: |
-      docker build \
-        -f frontend/Dockerfile \
-        -t appointmentscheduleracr.azurecr.io/frontend:${IMAGE_TAG} \
-        ./frontend
+      - name: Push Docker Images
+        run: |
+          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
+          docker push $ACR_NAME.azurecr.io/$IMAGE_NAME:latest
 
-  - name: Push Docker image
-    run: |
-      docker push appointmentscheduleracr.azurecr.io/frontend:${IMAGE_TAG}
+      - name: Update Azure Container App
+        run: |
+          az containerapp update \
+            --name $CONTAINER_APP \
+            --resource-group $RESOURCE_GROUP \
+            --image $ACR_NAME.azurecr.io/$IMAGE_NAME:${{ github.sha }}
 
-  - name: Update Frontend Container App
-    run: |
-      az containerapp update \
-        --name appointmentschedulerfrontend \
-        --resource-group VisualStudioOnline-FECBB64602464D1F90BA5DC5D1CA72B4 \
-        --image appointmentscheduleracr.azurecr.io/frontend:${IMAGE_TAG}
-
-  - name: Verify Revision
-    run: |
-      az containerapp revision list \
-        --name appointmentschedulerfrontend \
-        --resource-group VisualStudioOnline-FECBB64602464D1F90BA5DC5D1CA72B4 \
-        --output table
-```
+      - name: Verify Deployment
+        run: |
+          az containerapp revision list \
+            --name $CONTAINER_APP \
+            --resource-group $RESOURCE_GROUP \
+            --output table
