@@ -201,6 +201,7 @@ function App() {
                     <input type="password" value={authForm.password} onChange={e => setAuthForm({ ...authForm, password: e.target.value })} />
                   </label>
                   <button onClick={handleAdminLogin} disabled={isLoading}>{isLoading ? 'Logging in...' : 'Login as admin'}</button>
+                  <button onClick={handleAdminLogin} disabled={isLoading}>{isLoading ? 'Logging in...' : 'LForgot password'}</button>
                 </section>
               </div>
             ) : (
