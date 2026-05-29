@@ -191,7 +191,7 @@ function App() {
               <div className="panel admin-panel">
                 <h2>Admin Login Required</h2>
                 <section className="auth-section">
-                  <h3>JWT Authentication</h3>
+                  <h3></h3>
                   <label>
                     Username
                     <input value={authForm.username} onChange={e => setAuthForm({ ...authForm, username: e.target.value })} />
