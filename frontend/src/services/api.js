@@ -1,6 +1,6 @@
-//const apiBase = '/api';
-const apiBase =
-  'https://appschedulergateway.yellowpebble-e1ad0743.centralindia.azurecontainerapps.io/api';
+const apiBase = '/api';
+//const apiBase =
+  //'https://appschedulergateway.yellowpebble-e1ad0743.centralindia.azurecontainerapps.io/api';
   //'https://appschedulergateway.yellowpebble-e1ad0743.centralindia.azurecontainerapps.io/api';
 
 async function request(path, options = {}) {
